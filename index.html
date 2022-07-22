@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue ToDO</title>
+    <link rel="stylesheet" href="theme.css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+  </head>
+  <body id="app" v-cloak>
+    
+  <header>
+    <nav class="navbar ">
+      <div class="navbar__logo ">
+        <i class="fa fa-newspaper icon-news"></i>
+        <a class="navbar__title ">news</a>
+        
+      </div>
+      <button class="navbar__btn"
+      @click="changeToggler">
+        <i class="fa fa-plus"></i> Create news</button>
+    </nav>
+  </header>
+
+
+<!-- Модальное окно для добавления новости -->
+  <div class="modal-add" v-if="toggler" @click="changeToggler">
+    <teleport to="body" class="container" >
+      <div class="add-news" >
+        <div class="addNews__card">
+          <h3>Create News</h3>
+          <div class="addNews__input">
+            <input class="input title"
+            type="text"
+            :placeholder="placeholderTitle"
+            v-model="title"
+            @keypress.enter="formIsvalid"
+            >
+            <input class="input body"
+            type="text"
+            :placeholder="placeholderBody"
+            v-model="body"
+            @keypress.enter="formIsvalid"
+            >
+            <input class="input author"
+            type="text"
+            :placeholder="placeholderAuthor"
+            v-model="author"
+            @keypress.enter="formIsvalid(); createNews(); changeToggler()"
+            >
+          </div>
+          <div class="button-group">
+            <button class="btn write "
+            @click="createNews(); changeToggler()"
+            >
+            add</button>
+            <button class="btn delete "
+            @click="changeToggler"
+            >
+            close</button>
+          </div>
+        </div> 
+      </div>
+    </teleport>
+  </div>
+
+
+<!-- Модальное окно для редактирования новости -->
+  <div class="modal-edit" v-if="togglerEdit" @click="changeTogglerEdit">
+    <teleport to="body" class="container" >
+      <div class="editNews" >
+        <div class="editNews__card">
+          <h3>Edit News</h3>
+          <div class="editNews__input">
+            <input class="input title"
+            type="text"
+            :placeholder="placeholderTitle"
+            v-model="title"
+            @keypress.enter="createNews();changeTogglerEdit()"
+            >
+            <input class="input "
+            type="text"
+            :placeholder="placeholderBody"
+            v-model="body"
+            @keypress.enter="createNews();changeTogglerEdit()"
+            >
+            <input class="input author"
+            type="text"
+            :placeholder="placeholderAuthor"
+            v-model="author"
+            @keypress.enter="createNews();changeTogglerEdit()"
+            >
+          </div>
+          <div class="button-group">
+            <button class="btn write "
+            @click="createNews(); changeToggler()"
+            >
+            add</button>
+            <button class="btn delete "
+            @click="changeTogglerEdit"
+            >
+            close</button>
+          </div>
+        </div> 
+      </div>
+    </teleport>
+  </div>
+
+  <!-- Список новостей-->
+    <div class="list__news container">
+        <ul class="list" v-if="news.length !== 0">
+         
+          <li class="list__item"
+            v-for="(item,idx) in news">
+            <div class="news__card">
+             <h2>{{ item.title  }}</h2>
+             <h5> {{ item.date }}</h5>
+             <p>from {{ item.author }} </p>
+             <hr>
+             <h4> {{ item.body }} </h4>
+            <div class="btn-group">
+              <div class="btn-left">
+                <button class="button delete"
+                @click="deleteNews(idx)"
+                >
+                  <i class="fa fa-trash"></i>
+                </button> 
+                <button class="button write"
+                @click="editNews(idx); changeTogglerEdit();deleteNews(idx)"
+                >
+                  <i class="fa fa-pen"></i>
+                </button> 
+               </div>
+               <div class="btn-rigth">
+                  {{ item.like }}
+                  <button class="button like"
+                  @click="item.like++"
+                  >
+                  <i class="fa fa-heart"></i>
+                  </button>
+              </div>
+          </div> 
+          </div>
+          </li> 
+        </ul>
+        <div class="list-empty" v-else-if="news.length === 0">Новостей пока нет</div>
+      
+    </div>
+      
+      
+  </div>    
+      
+    
+    
+    
+    <script src="https://unpkg.com/vue@next"></script>
+    <script src="app.js"></script>
+  </body>
+  
+</html>

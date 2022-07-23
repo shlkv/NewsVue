@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vue ToDO</title>
+    <title>News</title>
     <link rel="stylesheet" href="theme.css" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
   </head>
@@ -93,11 +93,11 @@
           </div>
           <div class="button-group">
             <button class="btn write "
-            @click="createNews(); changeToggler()"
+            @click="createNews(); changeTogglerEdit()"
             >
             add</button>
             <button class="btn delete "
-            @click="changeTogglerEdit"
+            @click="createNews(); changeTogglerEdit()"
             >
             close</button>
           </div>
